@@ -1,0 +1,4 @@
+set cachename WebGS_Server
+fileformat utf8
+input vendor/WebGS/src/WebGS.gs
+commit

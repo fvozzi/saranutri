@@ -1,0 +1,3 @@
+[submodule "backend/gemstone/vendor/WebGS"]
+	path = backend/gemstone/vendor/WebGS
+	url = https://github.com/jgfoster/WebGS.git

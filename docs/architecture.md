@@ -5,12 +5,17 @@
 | Component | Responsibility |
 | --- | --- |
 | GemStone/S 64 Bit | Domain model, persistence, transactions, application services |
-| HTTP API | Stable contract between GemStone services and mobile clients |
+| WebGS HTTP API | JSON, routing, and OpenAPI contract between GemStone services and mobile clients |
 | Flutter | Mobile and web user interface |
 
 The Flutter client does not connect directly to GemStone. It will use an
-authenticated HTTP API. The HTTP server framework is intentionally deferred
-until the first API use cases are defined.
+authenticated HTTP API implemented with WebGS. WebGS is pinned as a Git
+submodule under `backend/gemstone/vendor/WebGS`.
+
+WebGS is started on a private network port during development. Production
+traffic must pass through a reverse proxy that terminates TLS and applies
+authentication, request limits, and audit logging. Do not expose a WebGS port
+directly to the Internet.
 
 ## GemStone source layout
 
@@ -21,6 +26,9 @@ until the first API use cases are defined.
 The source files use Topaz/Jasper `.gs` syntax. They can be loaded in order
 with `backend/gemstone/scripts/load.topaz` from a checkout available on the
 GemStone VM.
+
+`SNApi` is the first WebGS adapter. It owns HTTP routing and serialization;
+domain classes do not know about requests, responses, JSON, or Flutter.
 
 ## Git workflow
 
