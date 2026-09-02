@@ -1,0 +1,24 @@
+# Jasper session mirror and local diagnostic output
+.gemstone/
+debug.log
+
+# GemStone runtime state
+backend/gemstone/runtime/
+backend/gemstone/**/*.log
+backend/gemstone/**/*.dbf
+backend/gemstone/**/*.ext
+backend/gemstone/**/*.tran
+
+# Flutter and Dart generated files
+frontend/.dart_tool/
+frontend/.packages
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/build/
+frontend/.metadata
+
+# Editor and operating system files
+.vscode/
+.idea/
+*.swp
+Thumbs.db

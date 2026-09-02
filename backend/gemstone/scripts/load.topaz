@@ -1,0 +1,3 @@
+input src/SaraNutri-Core/SNApplication.gs
+input src/SaraNutri-Domain/SNPatient.gs
+commit
