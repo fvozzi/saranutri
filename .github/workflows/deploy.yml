@@ -1,0 +1,125 @@
+name: Test and deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Install Flutter dependencies
+        working-directory: frontend
+        run: flutter pub get --enforce-lockfile
+
+      - name: Analyze Flutter source
+        working-directory: frontend
+        run: flutter analyze
+
+      - name: Run Flutter tests
+        working-directory: frontend
+        run: flutter test
+
+      - name: Build the web application
+        working-directory: frontend
+        run: >-
+          flutter build web --release
+          --dart-define=SARANUTRI_API_URL=/api
+
+      - name: Package the release
+        run: |
+          tar \
+            --exclude='backend/gemstone/vendor/WebGS/.git' \
+            -czf saranutri-release.tar.gz \
+            backend/gemstone \
+            deploy/server \
+            frontend/build/web
+
+      - name: Upload the release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: saranutri-${{ github.sha }}
+          path: |
+            saranutri-release.tar.gz
+            deploy/server/deploy-release.sh
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    if: ${{ vars.DEPLOY_HOST != '' }}
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://${{ vars.PRODUCTION_DOMAIN }}
+    steps:
+      - name: Download the release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: saranutri-${{ github.sha }}
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          [[ -n "$SSH_PRIVATE_KEY" ]]
+          [[ -n "$SSH_KNOWN_HOSTS" ]]
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/id_ed25519"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/id_ed25519" "$HOME/.ssh/known_hosts"
+
+      - name: Upload and activate the release
+        env:
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ vars.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+          RELEASE_ID: ${{ github.sha }}
+        run: |
+          port="${DEPLOY_PORT:-22}"
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ ]]
+          [[ "$DEPLOY_USER" =~ ^[a-z_][a-z0-9_-]*$ ]]
+          [[ "$port" =~ ^[0-9]+$ ]]
+
+          ssh_options=(
+            -o BatchMode=yes
+            -o ConnectTimeout=15
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+          )
+
+          remote_archive="/tmp/saranutri-${RELEASE_ID}.tar.gz"
+          remote_script="/tmp/saranutri-deploy-${RELEASE_ID}.sh"
+
+          scp -P "$port" "${ssh_options[@]}" \
+            saranutri-release.tar.gz \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:${remote_archive}"
+          scp -P "$port" "${ssh_options[@]}" \
+            deploy/server/deploy-release.sh \
+            "${DEPLOY_USER}@${DEPLOY_HOST}:${remote_script}"
+          ssh -p "$port" "${ssh_options[@]}" \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "bash '${remote_script}' '${remote_archive}' '${RELEASE_ID}'"

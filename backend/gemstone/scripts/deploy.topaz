@@ -1,0 +1,9 @@
+errorCount
+iferr 1 stk
+iferr 2 abort
+iferr 3 logout
+iferr 4 exit 1
+login
+input scripts/load.topaz
+logout
+exit 0

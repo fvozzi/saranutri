@@ -1,0 +1,77 @@
+{
+  "@@locale": "en",
+  "appTitle": "SaraNutri",
+  "localPrototype": "Local prototype",
+  "addPatient": "Add patient",
+  "givenName": "Given name",
+  "familyName": "Family name",
+  "chooseBirthDate": "Choose birth date",
+  "cancel": "Cancel",
+  "requiredField": "Required",
+  "welcomeTitle": "Nutrition care, made clear.",
+  "welcomeDescription": "Start with a patient profile. Plans, check-ins, and the GemStone API can grow from this small foundation.",
+  "patientProfiles": "{count, plural, =0{patient profiles} =1{patient profile} other{patient profiles}}",
+  "@patientProfiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "patients": "Patients",
+  "noPatients": "No patients yet",
+  "noPatientsDescription": "Create the first profile to preview the patient workflow.",
+  "addFirstPatient": "Add first patient",
+  "birthDateNotProvided": "Birth date not provided",
+  "bornOn": "Born {date}",
+  "@bornOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "changeLanguage": "Change language",
+  "languageEnglish": "English",
+  "languageSpanish": "Spanish",
+  "languagePortuguese": "Portuguese",
+  "loadingPatients": "Loading patients…",
+  "unableToLoadPatients": "Patients could not be loaded.",
+  "unableToAddPatient": "The patient could not be added.",
+  "retry": "Try again",
+  "publicBrand": "SV Nutrition",
+  "openApp": "Open app",
+  "publicSite": "Public site",
+  "publicNavApproach": "Approach",
+  "publicNavContent": "Content",
+  "publicEyebrow": "Nutrition for real life",
+  "publicHeroTitle": "Eating well can feel simple.",
+  "publicHeroDescription": "A close, practical approach to building possible habits, enjoying food, and moving forward with clarity—without chasing perfection.",
+  "discoverApproach": "Discover the approach",
+  "visitInstagram": "Visit Instagram",
+  "approachEyebrow": "The approach",
+  "approachTitle": "A kinder way to care for how you eat.",
+  "approachDescription": "Your food choices happen in real life. The process starts with your context and turns nutrition into clear, useful tools for everyday decisions.",
+  "principleBalanceTitle": "Without extremes",
+  "principleBalanceDescription": "Balance grows from consistency, flexibility, and choices you can sustain.",
+  "principlePersonalTitle": "Personal context",
+  "principlePersonalDescription": "Your routines, preferences, and goals shape the path forward.",
+  "principleEverydayTitle": "Everyday tools",
+  "principleEverydayDescription": "Simple ideas help bring what you learn into shopping, cooking, and sharing meals.",
+  "processEyebrow": "The process",
+  "processTitle": "Clarity, one step at a time.",
+  "processDescription": "A simple structure helps transform information into actions that fit your week.",
+  "processListenTitle": "We listen",
+  "processListenDescription": "We begin with your context, questions, routines, and what matters to you.",
+  "processPlanTitle": "We create a path",
+  "processPlanDescription": "We organize practical next steps with clear priorities and room for real life.",
+  "processAdjustTitle": "We adjust",
+  "processAdjustDescription": "Progress becomes useful information for refining the process over time.",
+  "contentEyebrow": "Ideas and inspiration",
+  "contentTitle": "Nutrition content for everyday life.",
+  "contentDescription": "Follow @sv.nutricionista for practical ideas, food inspiration, and a closer look at the approach.",
+  "followOnInstagram": "Follow on Instagram",
+  "publicCtaTitle": "Ready to organize your next step?",
+  "publicCtaDescription": "Enter the private app to manage patient profiles and continue the digital care experience.",
+  "publicDisclaimer": "General information. It does not replace individual medical care."
+}

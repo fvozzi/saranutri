@@ -1,0 +1,19 @@
+[Unit]
+Description=SaraNutri GemStone NetLDI
+After=network.target saranutri-stone.service
+Requires=saranutri-stone.service
+
+[Service]
+Type=oneshot
+User=saranutri
+Group=saranutri
+Environment=GEMSTONE=/usr/lib/x86_64-linux-gnu/gemstone/3.7.6
+Environment=GEMSTONE_GLOBAL_DIR=/opt/gemstone
+ExecStart=/usr/lib/x86_64-linux-gnu/gemstone/3.7.6/bin/startnetldi -E /opt/gemstone/data/saranutri/gemstone_data.conf -g -a saranutri -A 127.0.0.1 -P 50377 gs64ldi
+ExecStop=/usr/lib/x86_64-linux-gnu/gemstone/3.7.6/bin/stopnetldi gs64ldi
+RemainAfterExit=yes
+TimeoutStartSec=60
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target

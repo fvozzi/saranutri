@@ -1,0 +1,7 @@
+# GemStone/S installation used by the production stone.
+GEMSTONE=/usr/lib/x86_64-linux-gnu/gemstone/3.7.6
+
+GEMSTONE_GLOBAL_DIR=/opt/gemstone
+GEMSTONE_DATA=/opt/gemstone/data/saranutri
+
+GEMSTONE_CACHE_NAME=WebGS_Server

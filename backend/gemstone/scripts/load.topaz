@@ -1,4 +1,7 @@
 input src/SaraNutri-Core/SNApplication.gs
 input src/SaraNutri-Domain/SNPatient.gs
 input src/SaraNutri-API/SNApi.gs
+input src/SaraNutri-Tests/SNApplicationTest.gs
+input src/SaraNutri-Tests/SNPatientTest.gs
+input src/SaraNutri-Tests/SNApiTest.gs
 commit

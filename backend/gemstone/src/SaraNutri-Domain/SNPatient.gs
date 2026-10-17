@@ -14,6 +14,16 @@ expectvalue /Class
 doit
 SNPatient category: 'SaraNutri-Domain'
 %
+! ------------------- Class methods for SNPatient
+category: 'instance creation'
+classmethod: SNPatient
+named: aGivenName familyName: aFamilyName birthDate: aBirthDate
+	^ self new
+		givenName: aGivenName;
+		familyName: aFamilyName;
+		birthDate: aBirthDate;
+		yourself
+%
 ! ------------------- Instance methods for SNPatient
 category: 'accessing'
 method: SNPatient
@@ -23,7 +33,7 @@ givenName
 category: 'accessing'
 method: SNPatient
 givenName: aString
-	givenName := aString
+	givenName := self normalizedName: aString
 %
 category: 'accessing'
 method: SNPatient
@@ -33,7 +43,7 @@ familyName
 category: 'accessing'
 method: SNPatient
 familyName: aString
-	familyName := aString
+	familyName := self normalizedName: aString
 %
 category: 'accessing'
 method: SNPatient
@@ -44,6 +54,17 @@ category: 'accessing'
 method: SNPatient
 birthDate: aDate
 	birthDate := aDate
+%
+category: 'validation'
+method: SNPatient
+normalizedName: aString
+	| normalizedName |
+	(aString isKindOf: CharacterCollection) ifFalse: [
+		ArgumentError signal: 'Patient names must be text' ].
+	normalizedName := aString trimWhiteSpace.
+	normalizedName isEmpty ifTrue: [
+		ArgumentError signal: 'Patient names are required' ].
+	^ normalizedName
 %
 category: 'printing'
 method: SNPatient

@@ -1,0 +1,12 @@
+errorCount
+iferr 1 stk
+iferr 2 abort
+iferr 3 logout
+iferr 4 exit 1
+login
+set cachename WebGS_Server
+fileformat utf8
+input WebGS.gs
+commit
+logout
+exit 0

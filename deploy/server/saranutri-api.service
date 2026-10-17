@@ -1,0 +1,24 @@
+[Unit]
+Description=SaraNutri WebGS API
+After=network-online.target saranutri-stone.service saranutri-netldi.service
+Wants=network-online.target
+Requires=saranutri-stone.service saranutri-netldi.service
+
+[Service]
+Type=simple
+User=saranutri
+Group=saranutri
+EnvironmentFile=-/etc/saranutri/environment
+Environment=HOME=/home/saranutri
+WorkingDirectory=/opt/saranutri/current/backend/gemstone
+ExecStart=/usr/bin/bash /opt/saranutri/current/deploy/server/run-api.sh
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+KillMode=mixed
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

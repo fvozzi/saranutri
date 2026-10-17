@@ -1,0 +1,29 @@
+saranutri.ar, www.saranutri.ar {
+	encode zstd gzip
+
+	# This protects the private MVP with one account. Generate the password
+	# hash on the server with: caddy hash-password
+	basic_auth {
+		saranutri REPLACE_WITH_CADDY_PASSWORD_HASH
+	}
+
+	header {
+		-Server
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+	}
+
+	handle_path /api/* {
+		reverse_proxy 127.0.0.1:8888
+	}
+
+	handle {
+		root * /opt/saranutri/current/frontend/build/web
+		route {
+			try_files {path} /index.html
+			header /index.html Cache-Control "public, max-age=0, must-revalidate"
+		}
+		file_server
+	}
+}

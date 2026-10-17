@@ -1,0 +1,16 @@
+[Unit]
+Description=SaraNutri GemStone repository
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=saranutri
+Group=saranutri
+Environment=GEMSTONE=/usr/lib/x86_64-linux-gnu/gemstone/3.7.6
+Environment=GEMSTONE_GLOBAL_DIR=/opt/gemstone
+ExecStart=/usr/lib/x86_64-linux-gnu/gemstone/3.7.6/bin/startstone -E /opt/gemstone/data/saranutri/gemstone_data.conf -W gs64stone
+RemainAfterExit=yes
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target
