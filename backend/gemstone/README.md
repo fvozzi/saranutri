@@ -41,9 +41,14 @@ Patient creation validates and normalizes names in `SNPatient`, adds the new
 patient to `SNApplication current`, and commits the GemStone transaction before
 returning HTTP 201.
 
-The loaders commit only after every listed source file has been processed. Use
-a dedicated deployment user for non-development environments and do not place
-credentials in this repository.
+`SNAppointment` models a scheduled appointment for an `SNPatient`. Its initial
+state is `#scheduled`; the domain object validates both the patient and the
+scheduled `DateAndTime`. Appointment API and UI behavior will be added as a
+separate vertical slice.
+
+The loaders commit only after every listed source file has been processed and
+all loaded SUnit suites pass. Use a dedicated deployment user for
+non-development environments and do not place credentials in this repository.
 
 Automated production loads use `scripts/deploy.topaz`. It logs in with the
 server account's protected `.topazini`, loads the same source list, and exits

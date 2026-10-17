@@ -1,7 +1,20 @@
 input src/SaraNutri-Core/SNApplication.gs
 input src/SaraNutri-Domain/SNPatient.gs
+input src/SaraNutri-Domain/SNAppointment.gs
 input src/SaraNutri-API/SNApi.gs
 input src/SaraNutri-Tests/SNApplicationTest.gs
 input src/SaraNutri-Tests/SNPatientTest.gs
+input src/SaraNutri-Tests/SNAppointmentTest.gs
 input src/SaraNutri-Tests/SNApiTest.gs
+run
+| result |
+result := SNApplicationTest run.
+result hasPassed ifFalse: [ Error signal: 'SNApplicationTest failed' ].
+result := SNPatientTest run.
+result hasPassed ifFalse: [ Error signal: 'SNPatientTest failed' ].
+result := SNAppointmentTest run.
+result hasPassed ifFalse: [ Error signal: 'SNAppointmentTest failed' ].
+result := SNApiTest run.
+result hasPassed ifFalse: [ Error signal: 'SNApiTest failed' ]
+%
 commit
