@@ -1,9 +1,10 @@
 # DigitalOcean deployment
 
-This deployment is intended for the current single-user MVP. Caddy terminates
-HTTPS, serves the public Flutter web build, requires one temporary Basic Auth
-account for `/api/*`, and proxies authenticated API requests to WebGS. WebGS
-remains on port 8888 and must not be allowed through the public firewall.
+This deployment is intended for the current MVP. Caddy terminates HTTPS,
+serves the public Flutter web build, and proxies `/api/*` requests to WebGS.
+The Flutter application signs in through `POST /sessions`; protected endpoints
+require the Bearer token returned by the backend. WebGS remains on port 8888
+and must not be allowed through the public firewall.
 
 The workflow tests and builds Flutter on GitHub, sends an immutable release to
 the Droplet over SSH, loads the tracked GemStone source, switches the active
@@ -21,9 +22,8 @@ allow port 8888.
 Install and configure these server dependencies:
 
 - GemStone/S 64 Bit and the production stone.
-- Caddy 2.8 or later. The checked-in configuration uses `basic_auth`, which
-  replaced the older `basicauth` directive in Caddy 2.8. Use Caddy's official
-  stable Debian/Ubuntu repository rather than Ubuntu 24.04's older package.
+- Caddy 2.8 or later. Use Caddy's official stable Debian/Ubuntu repository
+  rather than Ubuntu 24.04's older package.
 - `curl`, `flock`, `sudo`, and `tar` (normally present on Ubuntu).
 
 GemStone is licensed software and remains a server prerequisite; the workflow
@@ -112,18 +112,12 @@ systemctl is-enabled saranutri-api.service
 systemctl cat saranutri-api.service
 ```
 
-## 5. Configure Caddy and the temporary API account
+## 5. Configure Caddy
 
-Generate a password hash interactively so the plaintext password is not placed
-in shell history:
-
-```sh
-caddy hash-password
-```
-
-Copy `deploy/server/Caddyfile.example` to `/etc/caddy/Caddyfile`. Replace the
-example domain, username, and password-hash placeholder. Then validate and
-reload it:
+Copy `deploy/server/Caddyfile.example` to `/etc/caddy/Caddyfile` and replace
+the example domain. Do not add Basic Auth to `/api/*`: the API must allow the
+Flutter login request through, while GemStone protects private endpoints with
+Bearer tokens. Then validate and reload the configuration:
 
 ```sh
 sudo caddy validate --config /etc/caddy/Caddyfile
@@ -131,10 +125,9 @@ sudo systemctl reload caddy
 ```
 
 Caddy obtains and renews the TLS certificate after DNS points to the Droplet
-and ports 80/443 are reachable. The public site does not require credentials.
-The Basic Auth account protects only `/api/*` and is a temporary data boundary,
-not an application user system. Replace it with backend-owned authentication
-and authorization before supporting multiple users or real patient data.
+and ports 80/443 are reachable. The public site and login endpoint do not
+require credentials. Patient and appointment endpoints enforce backend-owned
+authentication and role authorization.
 
 ## 6. Configure the GitHub production environment
 
@@ -171,7 +164,7 @@ After the first deployment:
 ```sh
 systemctl status saranutri-api.service
 journalctl -u saranutri-api.service -n 100 --no-pager
-curl -u 'saranutri:YOUR_PASSWORD' https://saranutri.ar/api/health
+curl https://saranutri.ar/api/health
 ```
 
 Configure tested GemStone backups before storing real patient information.

@@ -9,12 +9,9 @@ saranutri.ar, www.saranutri.ar {
 	}
 
 	handle_path /api/* {
-		# This protects patient data until application authentication exists.
-		# Generate the password hash on the server with: caddy hash-password
-		basic_auth {
-			saranutri REPLACE_WITH_CADDY_PASSWORD_HASH
-		}
-
+		# Application authentication is handled by POST /sessions and Bearer
+		# tokens. Adding Caddy Basic Auth here would trigger a browser login
+		# dialog and prevent the Flutter sign-in screen from reaching the API.
 		reverse_proxy 127.0.0.1:8888
 	}
 
