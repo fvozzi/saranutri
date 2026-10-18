@@ -1,9 +1,9 @@
 # DigitalOcean deployment
 
-This deployment is intended for the current private, single-user MVP. Caddy
-terminates HTTPS, requires one Basic Auth account for the entire site, serves
-the Flutter web build, and proxies `/api/*` to WebGS. WebGS remains on port
-8888 and must not be allowed through the public firewall.
+This deployment is intended for the current single-user MVP. Caddy terminates
+HTTPS, serves the public Flutter web build, requires one temporary Basic Auth
+account for `/api/*`, and proxies authenticated API requests to WebGS. WebGS
+remains on port 8888 and must not be allowed through the public firewall.
 
 The workflow tests and builds Flutter on GitHub, sends an immutable release to
 the Droplet over SSH, loads the tracked GemStone source, switches the active
@@ -112,7 +112,7 @@ systemctl is-enabled saranutri-api.service
 systemctl cat saranutri-api.service
 ```
 
-## 5. Configure Caddy and the single private account
+## 5. Configure Caddy and the temporary API account
 
 Generate a password hash interactively so the plaintext password is not placed
 in shell history:
@@ -131,9 +131,10 @@ sudo systemctl reload caddy
 ```
 
 Caddy obtains and renews the TLS certificate after DNS points to the Droplet
-and ports 80/443 are reachable. The Basic Auth account is a temporary
-deployment boundary, not an application user system. Keep the whole site
-private until backend-owned authentication and authorization are implemented.
+and ports 80/443 are reachable. The public site does not require credentials.
+The Basic Auth account protects only `/api/*` and is a temporary data boundary,
+not an application user system. Replace it with backend-owned authentication
+and authorization before supporting multiple users or real patient data.
 
 ## 6. Configure the GitHub production environment
 

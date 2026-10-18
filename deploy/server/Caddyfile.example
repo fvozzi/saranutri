@@ -1,12 +1,6 @@
 saranutri.ar, www.saranutri.ar {
 	encode zstd gzip
 
-	# This protects the private MVP with one account. Generate the password
-	# hash on the server with: caddy hash-password
-	basic_auth {
-		saranutri REPLACE_WITH_CADDY_PASSWORD_HASH
-	}
-
 	header {
 		-Server
 		Referrer-Policy "strict-origin-when-cross-origin"
@@ -15,6 +9,12 @@ saranutri.ar, www.saranutri.ar {
 	}
 
 	handle_path /api/* {
+		# This protects patient data until application authentication exists.
+		# Generate the password hash on the server with: caddy hash-password
+		basic_auth {
+			saranutri REPLACE_WITH_CADDY_PASSWORD_HASH
+		}
+
 		reverse_proxy 127.0.0.1:8888
 	}
 
