@@ -3,7 +3,7 @@ set compile_env: 0
 expectvalue /Class
 doit
 Object subclass: 'SNAppointment'
-  instVarNames: #(patient scheduledAt status)
+  instVarNames: #(id patient scheduledAt status)
   classVars: #()
   classInstVars: #()
   poolDictionaries: #()
@@ -34,7 +34,13 @@ new
 category: 'initialization'
 method: SNAppointment
 initialize
+	id := GsUuidV4 new asString.
 	status := #scheduled
+%
+category: 'accessing'
+method: SNAppointment
+id
+	^ id ifNil: [ id := GsUuidV4 new asString ]
 %
 category: 'accessing'
 method: SNAppointment
@@ -58,6 +64,8 @@ method: SNAppointment
 scheduledAt: aDateAndTime
 	(aDateAndTime isKindOf: DateAndTime) ifFalse: [
 		ArgumentError signal: 'An appointment requires a scheduled date and time' ].
+	(aDateAndTime > DateAndTime now) ifFalse: [
+		ArgumentError signal: 'An appointment must be scheduled in the future' ].
 	scheduledAt := aDateAndTime
 %
 category: 'accessing'

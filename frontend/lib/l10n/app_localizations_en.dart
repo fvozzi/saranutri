@@ -212,4 +212,85 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get publicDisclaimer =>
       'General information. It does not replace individual medical care.';
+
+  @override
+  String get signInTitle => 'Welcome back';
+
+  @override
+  String get signInDescription => 'Sign in to access your SaraNutri workspace.';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get invalidCredentials => 'The email or password is incorrect.';
+
+  @override
+  String get unableToSignIn => 'Sign-in is unavailable right now. Try again.';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get appointments => 'Appointments';
+
+  @override
+  String get assignAppointment => 'Assign appointment';
+
+  @override
+  String get loadingAppointments => 'Loading appointments…';
+
+  @override
+  String get unableToLoadAppointments => 'Appointments could not be loaded.';
+
+  @override
+  String get noAppointments => 'No appointments yet';
+
+  @override
+  String get noProfessionalAppointmentsDescription =>
+      'Assign the first appointment to a patient.';
+
+  @override
+  String get noPatientAppointmentsDescription =>
+      'Your upcoming appointments will appear here.';
+
+  @override
+  String get addPatientFirst =>
+      'Add a patient before assigning an appointment.';
+
+  @override
+  String get unableToAssignAppointment =>
+      'The appointment could not be assigned.';
+
+  @override
+  String get patient => 'Patient';
+
+  @override
+  String get chooseDate => 'Choose date';
+
+  @override
+  String get chooseTime => 'Choose time';
+
+  @override
+  String get scheduled => 'Scheduled';
+
+  @override
+  String appointmentDateTime(String date, String time) {
+    return '$date at $time';
+  }
+
+  @override
+  String get tryAgainDescription => 'Check your connection and try again.';
 }

@@ -212,4 +212,87 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get publicDisclaimer =>
       'Informação geral. Não substitui atendimento médico individual.';
+
+  @override
+  String get signInTitle => 'Boas-vindas';
+
+  @override
+  String get signInDescription => 'Entre para acessar seu espaço SaraNutri.';
+
+  @override
+  String get email => 'E-mail';
+
+  @override
+  String get password => 'Senha';
+
+  @override
+  String get showPassword => 'Mostrar senha';
+
+  @override
+  String get hidePassword => 'Ocultar senha';
+
+  @override
+  String get signIn => 'Entrar';
+
+  @override
+  String get invalidCredentials => 'O e-mail ou a senha estão incorretos.';
+
+  @override
+  String get unableToSignIn =>
+      'Não foi possível entrar agora. Tente novamente.';
+
+  @override
+  String get signOut => 'Sair';
+
+  @override
+  String get appointments => 'Consultas';
+
+  @override
+  String get assignAppointment => 'Agendar consulta';
+
+  @override
+  String get loadingAppointments => 'Carregando consultas…';
+
+  @override
+  String get unableToLoadAppointments =>
+      'Não foi possível carregar as consultas.';
+
+  @override
+  String get noAppointments => 'Ainda não há consultas';
+
+  @override
+  String get noProfessionalAppointmentsDescription =>
+      'Agende a primeira consulta para um paciente.';
+
+  @override
+  String get noPatientAppointmentsDescription =>
+      'Suas próximas consultas aparecerão aqui.';
+
+  @override
+  String get addPatientFirst =>
+      'Adicione um paciente antes de agendar uma consulta.';
+
+  @override
+  String get unableToAssignAppointment =>
+      'Não foi possível agendar a consulta.';
+
+  @override
+  String get patient => 'Paciente';
+
+  @override
+  String get chooseDate => 'Escolher data';
+
+  @override
+  String get chooseTime => 'Escolher horário';
+
+  @override
+  String get scheduled => 'Agendada';
+
+  @override
+  String appointmentDateTime(String date, String time) {
+    return '$date às $time';
+  }
+
+  @override
+  String get tryAgainDescription => 'Verifique sua conexão e tente novamente.';
 }

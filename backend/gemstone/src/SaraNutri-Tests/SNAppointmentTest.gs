@@ -23,7 +23,18 @@ setUp
 		named: 'Ada'
 		familyName: 'Lovelace'
 		birthDate: nil.
-	scheduledAt := DateAndTime now
+	scheduledAt := DateAndTime now + (Duration seconds: 3600)
+%
+category: 'tests'
+method: SNAppointmentTest
+testAppointmentHasStableIdentifier
+	| appointment |
+	appointment := SNAppointment
+		forPatient: patient
+		scheduledAt: scheduledAt.
+
+	self deny: appointment id isEmpty.
+	self assert: appointment id equals: appointment id
 %
 category: 'tests'
 method: SNAppointmentTest
@@ -65,5 +76,15 @@ testAppointmentRequiresScheduledTime
 			SNAppointment
 				forPatient: patient
 				scheduledAt: nil ]
+		raise: ArgumentError
+%
+category: 'tests'
+method: SNAppointmentTest
+testAppointmentMustBeScheduledInTheFuture
+	self
+		should: [
+			SNAppointment
+				forPatient: patient
+				scheduledAt: DateAndTime now - (Duration seconds: 60) ]
 		raise: ArgumentError
 %

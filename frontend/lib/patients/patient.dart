@@ -1,5 +1,6 @@
 class Patient {
   const Patient({
+    required this.id,
     required this.givenName,
     required this.familyName,
     this.birthDate,
@@ -7,12 +8,14 @@ class Patient {
 
   factory Patient.fromJson(Map<String, dynamic> json) {
     return Patient(
+      id: json['id'] as String,
       givenName: json['givenName'] as String,
       familyName: json['familyName'] as String,
       birthDate: _dateFromJson(json['birthDate']),
     );
   }
 
+  final String id;
   final String givenName;
   final String familyName;
   final DateTime? birthDate;

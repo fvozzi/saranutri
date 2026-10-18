@@ -13,9 +13,11 @@ void main() {
     final client = MockClient((request) async {
       expect(request.method, 'GET');
       expect(request.url, Uri.parse('$apiUrl/patients'));
+      expect(request.headers['authorization'], 'Bearer token-123');
       return http.Response(
         jsonEncode([
           {
+            'id': 'patient-1',
             'givenName': 'Ada',
             'familyName': 'Lovelace',
             'birthDate': '1815-12-10',
@@ -30,7 +32,7 @@ void main() {
       client: client,
     );
 
-    final patients = await repository.fetchAll();
+    final patients = await repository.fetchAll('token-123');
 
     expect(patients, hasLength(1));
     expect(patients.single.displayName, 'Lovelace, Ada');
@@ -41,13 +43,20 @@ void main() {
     final client = MockClient((request) async {
       expect(request.method, 'POST');
       expect(request.url, Uri.parse('$apiUrl/patients'));
+      expect(request.headers['authorization'], 'Bearer token-123');
       expect(request.headers['content-type'], startsWith('text/plain'));
       expect(jsonDecode(request.body), {
         'givenName': 'Ada',
         'familyName': 'Lovelace',
         'birthDate': null,
       });
-      return http.Response(request.body, 201);
+      return http.Response(
+        jsonEncode({
+          'id': 'patient-1',
+          ...jsonDecode(request.body) as Map<String, dynamic>,
+        }),
+        201,
+      );
     });
     final repository = HttpPatientRepository(
       baseUri: Uri.parse(apiUrl),
@@ -55,7 +64,12 @@ void main() {
     );
 
     final patient = await repository.add(
-      const Patient(givenName: 'Ada', familyName: 'Lovelace'),
+      'token-123',
+      const Patient(
+        id: '',
+        givenName: 'Ada',
+        familyName: 'Lovelace',
+      ),
     );
 
     expect(patient.displayName, 'Lovelace, Ada');

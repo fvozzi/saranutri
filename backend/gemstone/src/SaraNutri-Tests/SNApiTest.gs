@@ -33,6 +33,7 @@ testPatientAsDictionary
 	| dictionary |
 	dictionary := SNApi patientAsDictionary: patient.
 
+	self assert: (dictionary at: 'id') equals: patient id.
 	self assert: (dictionary at: 'givenName') equals: 'Ada'.
 	self assert: (dictionary at: 'familyName') equals: 'Lovelace'.
 	self assert: (dictionary at: 'birthDate') equals: '1815-12-10'
@@ -63,4 +64,29 @@ testPatientWithoutBirthDateRoundTripsAsJsonNull
 	dictionary := SNApi patientAsDictionary: patientWithoutBirthDate.
 
 	self assert: (dictionary at: 'birthDate') isNil
+%
+category: 'tests'
+method: SNApiTest
+testDateAndTimeFromUtcJsonValue
+	| dateAndTime |
+	dateAndTime := SNApi
+		dateAndTimeFromJsonValue: '2026-11-02T13:30:00.000Z'.
+
+	self
+		assert: (dateAndTime asString copyFrom: 1 to: 10)
+		equals: '2026-11-02'
+%
+category: 'tests'
+method: SNApiTest
+testSessionAsDictionary
+	| dictionary session user |
+	user := SNProfessionalUser
+		named: 'Sara Nutri'
+		email: 'professional@example.com'
+		password: 'secret'.
+	session := SNAuthenticatedSession forUser: user.
+	dictionary := SNApi sessionAsDictionary: session.
+
+	self assert: (dictionary at: 'accessToken') equals: session token.
+	self assert: ((dictionary at: 'user') at: 'role') equals: 'professional'
 %

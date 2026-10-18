@@ -62,3 +62,70 @@ testCurrentApplicationIsStoredInRegistry
 
 	self assert: (SNApplication currentIn: registry) == currentApplication
 %
+category: 'tests'
+method: SNApplicationTest
+testProfessionalCanAuthenticateAndManageAppointments
+	| appointment session user |
+	application addPatient: patient.
+	user := application
+		addProfessionalNamed: 'Sara Nutri'
+		email: 'professional@example.com'
+		password: 'secret'.
+	session := application
+		authenticateEmail: 'PROFESSIONAL@example.com'
+		password: 'secret'.
+	appointment := application
+		scheduleAppointmentForPatientId: patient id
+		at: DateAndTime now + (Duration seconds: 3600)
+		requestedBy: session user.
+
+	self assert: session user == user.
+	self assert: application appointments size equals: 1.
+	self assert: appointment patient == patient
+%
+category: 'tests'
+method: SNApplicationTest
+testPatientOnlySeesOwnAppointments
+	| anotherPatient patientSession professional |
+	anotherPatient := SNPatient
+		named: 'Grace'
+		familyName: 'Hopper'
+		birthDate: nil.
+	application
+		addPatient: patient;
+		addPatient: anotherPatient.
+	professional := application
+		addProfessionalNamed: 'Sara Nutri'
+		email: 'professional@example.com'
+		password: 'secret'.
+	application
+		scheduleAppointmentForPatientId: patient id at: DateAndTime now + (Duration seconds: 3600) requestedBy: professional;
+		scheduleAppointmentForPatientId: anotherPatient id at: DateAndTime now + (Duration seconds: 7200) requestedBy: professional.
+	application
+		addPatientUserFor: patient
+		email: 'ada@example.com'
+		password: 'secret'.
+	patientSession := application
+		authenticateEmail: 'ada@example.com'
+		password: 'secret'.
+
+	self assert: (application appointmentsVisibleTo: patientSession user) size equals: 1.
+	self
+		should: [ application patientsVisibleTo: patientSession user ]
+		raise: SNAuthorizationError
+%
+category: 'tests'
+method: SNApplicationTest
+testInvalidCredentialsAreRejected
+	application
+		addProfessionalNamed: 'Sara Nutri'
+		email: 'professional@example.com'
+		password: 'secret'.
+
+	self
+		should: [
+			application
+				authenticateEmail: 'professional@example.com'
+				password: 'incorrect' ]
+		raise: SNAuthenticationError
+%

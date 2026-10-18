@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:saranutri/patients/patient.dart';
 
 abstract interface class PatientRepository {
-  Future<List<Patient>> fetchAll();
+  Future<List<Patient>> fetchAll(String accessToken);
 
-  Future<Patient> add(Patient patient);
+  Future<Patient> add(String accessToken, Patient patient);
 }
 
 class HttpPatientRepository implements PatientRepository {
@@ -18,10 +18,13 @@ class HttpPatientRepository implements PatientRepository {
   final http.Client _client;
 
   @override
-  Future<List<Patient>> fetchAll() async {
+  Future<List<Patient>> fetchAll(String accessToken) async {
     final response = await _client.get(
       _patientsUri,
-      headers: const {'accept': 'application/json'},
+      headers: {
+        'accept': 'application/json',
+        'authorization': 'Bearer $accessToken',
+      },
     );
     _requireStatus(response, 200);
     final payload = _decodeJson(response);
@@ -34,11 +37,12 @@ class HttpPatientRepository implements PatientRepository {
   }
 
   @override
-  Future<Patient> add(Patient patient) async {
+  Future<Patient> add(String accessToken, Patient patient) async {
     final response = await _client.post(
       _patientsUri,
-      headers: const {
+      headers: {
         'accept': 'application/json',
+        'authorization': 'Bearer $accessToken',
         // A simple content type avoids an unnecessary browser CORS preflight.
         'content-type': 'text/plain; charset=UTF-8',
       },

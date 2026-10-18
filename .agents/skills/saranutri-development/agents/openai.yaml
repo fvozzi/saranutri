@@ -1,0 +1,4 @@
+interface:
+  display_name: "SaraNutri Development"
+  short_description: "Apply SaraNutri architecture and localization rules"
+  default_prompt: "Use $saranutri-development to implement this SaraNutri change consistently."

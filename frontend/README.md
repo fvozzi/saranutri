@@ -3,11 +3,19 @@
 This directory contains two Flutter web surfaces:
 
 - `/` is the public SV Nutrition site.
-- `/app` is the SaraNutri patient application backed by the GemStone HTTP API.
+- `/app` is the authenticated SaraNutri application backed by the GemStone
+  HTTP API.
 
 The frontend intentionally has no GemStone credentials and never connects to
-the database directly. The API owns patient validation and commits new patients
-to `SNApplication current`.
+the database directly. It signs in through `POST /sessions` and sends the
+returned Bearer token with private API requests. The API owns authorization,
+patient validation, appointment assignment, and persistence.
+
+The role returned by the API determines the workspace:
+
+- professionals can list and add patients, list appointments, and assign an
+  appointment to a patient;
+- patients can only list their own appointments.
 
 The UI supports English, Spanish, and Portuguese. Flutter selects the system
 locale by default, and the language menu in the app bar allows users to switch
@@ -36,7 +44,8 @@ flutter run -d chrome \
 
 The production build uses the same-origin `/api` path. Caddy strips that prefix
 and forwards requests to WebGS, so the browser never connects to port 8888
-directly.
+directly. A cross-origin development setup must handle CORS preflight requests
+for the `Authorization` header at its reverse proxy.
 
 Flutter generates the localization classes during builds. You can also run
 `flutter gen-l10n` explicitly after changing the ARB files.

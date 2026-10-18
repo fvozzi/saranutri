@@ -73,5 +73,36 @@
   "followOnInstagram": "Follow on Instagram",
   "publicCtaTitle": "Ready to organize your next step?",
   "publicCtaDescription": "Enter the private app to manage patient profiles and continue the digital care experience.",
-  "publicDisclaimer": "General information. It does not replace individual medical care."
+  "publicDisclaimer": "General information. It does not replace individual medical care.",
+  "signInTitle": "Welcome back",
+  "signInDescription": "Sign in to access your SaraNutri workspace.",
+  "email": "Email",
+  "password": "Password",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "signIn": "Sign in",
+  "invalidCredentials": "The email or password is incorrect.",
+  "unableToSignIn": "Sign-in is unavailable right now. Try again.",
+  "signOut": "Sign out",
+  "appointments": "Appointments",
+  "assignAppointment": "Assign appointment",
+  "loadingAppointments": "Loading appointments…",
+  "unableToLoadAppointments": "Appointments could not be loaded.",
+  "noAppointments": "No appointments yet",
+  "noProfessionalAppointmentsDescription": "Assign the first appointment to a patient.",
+  "noPatientAppointmentsDescription": "Your upcoming appointments will appear here.",
+  "addPatientFirst": "Add a patient before assigning an appointment.",
+  "unableToAssignAppointment": "The appointment could not be assigned.",
+  "patient": "Patient",
+  "chooseDate": "Choose date",
+  "chooseTime": "Choose time",
+  "scheduled": "Scheduled",
+  "appointmentDateTime": "{date} at {time}",
+  "@appointmentDateTime": {
+    "placeholders": {
+      "date": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "tryAgainDescription": "Check your connection and try again."
 }

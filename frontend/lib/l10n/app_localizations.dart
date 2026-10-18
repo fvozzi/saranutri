@@ -459,6 +459,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'General information. It does not replace individual medical care.'**
   String get publicDisclaimer;
+
+  /// No description provided for @signInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get signInTitle;
+
+  /// No description provided for @signInDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to access your SaraNutri workspace.'**
+  String get signInDescription;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @showPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPassword;
+
+  /// No description provided for @hidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePassword;
+
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get signIn;
+
+  /// No description provided for @invalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'The email or password is incorrect.'**
+  String get invalidCredentials;
+
+  /// No description provided for @unableToSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in is unavailable right now. Try again.'**
+  String get unableToSignIn;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOut;
+
+  /// No description provided for @appointments.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointments'**
+  String get appointments;
+
+  /// No description provided for @assignAppointment.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign appointment'**
+  String get assignAppointment;
+
+  /// No description provided for @loadingAppointments.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading appointments…'**
+  String get loadingAppointments;
+
+  /// No description provided for @unableToLoadAppointments.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointments could not be loaded.'**
+  String get unableToLoadAppointments;
+
+  /// No description provided for @noAppointments.
+  ///
+  /// In en, this message translates to:
+  /// **'No appointments yet'**
+  String get noAppointments;
+
+  /// No description provided for @noProfessionalAppointmentsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign the first appointment to a patient.'**
+  String get noProfessionalAppointmentsDescription;
+
+  /// No description provided for @noPatientAppointmentsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your upcoming appointments will appear here.'**
+  String get noPatientAppointmentsDescription;
+
+  /// No description provided for @addPatientFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a patient before assigning an appointment.'**
+  String get addPatientFirst;
+
+  /// No description provided for @unableToAssignAppointment.
+  ///
+  /// In en, this message translates to:
+  /// **'The appointment could not be assigned.'**
+  String get unableToAssignAppointment;
+
+  /// No description provided for @patient.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient'**
+  String get patient;
+
+  /// No description provided for @chooseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose date'**
+  String get chooseDate;
+
+  /// No description provided for @chooseTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose time'**
+  String get chooseTime;
+
+  /// No description provided for @scheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get scheduled;
+
+  /// No description provided for @appointmentDateTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} at {time}'**
+  String appointmentDateTime(String date, String time);
+
+  /// No description provided for @tryAgainDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again.'**
+  String get tryAgainDescription;
 }
 
 class _AppLocalizationsDelegate

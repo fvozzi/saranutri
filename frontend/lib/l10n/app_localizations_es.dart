@@ -212,4 +212,85 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get publicDisclaimer =>
       'Información general. No reemplaza la atención médica individual.';
+
+  @override
+  String get signInTitle => 'Te damos la bienvenida';
+
+  @override
+  String get signInDescription =>
+      'Ingresá para acceder a tu espacio de SaraNutri.';
+
+  @override
+  String get email => 'Correo electrónico';
+
+  @override
+  String get password => 'Contraseña';
+
+  @override
+  String get showPassword => 'Mostrar contraseña';
+
+  @override
+  String get hidePassword => 'Ocultar contraseña';
+
+  @override
+  String get signIn => 'Ingresar';
+
+  @override
+  String get invalidCredentials => 'El correo o la contraseña son incorrectos.';
+
+  @override
+  String get unableToSignIn =>
+      'No se puede iniciar sesión en este momento. Intentá nuevamente.';
+
+  @override
+  String get signOut => 'Cerrar sesión';
+
+  @override
+  String get appointments => 'Turnos';
+
+  @override
+  String get assignAppointment => 'Asignar turno';
+
+  @override
+  String get loadingAppointments => 'Cargando turnos…';
+
+  @override
+  String get unableToLoadAppointments => 'No se pudieron cargar los turnos.';
+
+  @override
+  String get noAppointments => 'Todavía no hay turnos';
+
+  @override
+  String get noProfessionalAppointmentsDescription =>
+      'Asigná el primer turno a un paciente.';
+
+  @override
+  String get noPatientAppointmentsDescription =>
+      'Tus próximos turnos aparecerán aquí.';
+
+  @override
+  String get addPatientFirst => 'Agregá un paciente antes de asignar un turno.';
+
+  @override
+  String get unableToAssignAppointment => 'No se pudo asignar el turno.';
+
+  @override
+  String get patient => 'Paciente';
+
+  @override
+  String get chooseDate => 'Elegir fecha';
+
+  @override
+  String get chooseTime => 'Elegir horario';
+
+  @override
+  String get scheduled => 'Programado';
+
+  @override
+  String appointmentDateTime(String date, String time) {
+    return '$date a las $time';
+  }
+
+  @override
+  String get tryAgainDescription => 'Revisá tu conexión e intentá nuevamente.';
 }

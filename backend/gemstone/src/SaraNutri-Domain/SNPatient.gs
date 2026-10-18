@@ -3,7 +3,7 @@ set compile_env: 0
 expectvalue /Class
 doit
 Object subclass: 'SNPatient'
-  instVarNames: #(givenName familyName birthDate)
+  instVarNames: #(id givenName familyName birthDate)
   classVars: #()
   classInstVars: #()
   poolDictionaries: #()
@@ -17,6 +17,13 @@ SNPatient category: 'SaraNutri-Domain'
 ! ------------------- Class methods for SNPatient
 category: 'instance creation'
 classmethod: SNPatient
+new
+	^ self basicNew
+		initialize;
+		yourself
+%
+category: 'instance creation'
+classmethod: SNPatient
 named: aGivenName familyName: aFamilyName birthDate: aBirthDate
 	^ self new
 		givenName: aGivenName;
@@ -25,6 +32,16 @@ named: aGivenName familyName: aFamilyName birthDate: aBirthDate
 		yourself
 %
 ! ------------------- Instance methods for SNPatient
+category: 'initialization'
+method: SNPatient
+initialize
+	id := GsUuidV4 new asString
+%
+category: 'accessing'
+method: SNPatient
+id
+	^ id ifNil: [ id := GsUuidV4 new asString ]
+%
 category: 'accessing'
 method: SNPatient
 givenName
@@ -59,11 +76,11 @@ category: 'validation'
 method: SNPatient
 normalizedName: aString
 	| normalizedName |
-	(aString isKindOf: CharacterCollection) ifFalse: [
-		ArgumentError signal: 'Patient names must be text' ].
 	normalizedName := aString trimWhiteSpace.
 	normalizedName isEmpty ifTrue: [
 		ArgumentError signal: 'Patient names are required' ].
+	(normalizedName allSatisfy: [ :character | character isLetter ]) ifFalse: [
+		ArgumentError signal: 'Patient names must contain only letters' ].
 	^ normalizedName
 %
 category: 'printing'

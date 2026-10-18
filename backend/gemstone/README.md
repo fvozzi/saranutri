@@ -29,22 +29,49 @@ input scripts/load-minimal.topaz
 the VM before exposing it through a reverse proxy. Keep that expression
 running in a dedicated Topaz or IDE session while the Flutter client is in use.
 
-The initial API exposes:
+The API exposes:
 
 - `GET /health`
-- `GET /patients`
-- `POST /patients`
+- `POST /sessions`
+- `GET /patients` (professional)
+- `POST /patients` (professional)
+- `GET /appointments` (professional or the authenticated patient)
+- `POST /appointments` (professional)
 - `GET /openapi.json`
 - `GET /docs`
 
-Patient creation validates and normalizes names in `SNPatient`, adds the new
-patient to `SNApplication current`, and commits the GemStone transaction before
-returning HTTP 201.
+Except for health and session creation, API routes require an
+`Authorization: Bearer <accessToken>` header. Sessions expire after twelve
+hours. Passwords are stored as salted, iterated SHA-256 digests; raw passwords
+are never persisted.
+
+Accounts are provisioned from a trusted GemStone session rather than through a
+public sign-up endpoint. For example, replace the example values while running
+the following in an authenticated Topaz or IDE session:
+
+```smalltalk
+| application patient |
+application := SNApplication current.
+application
+  addProfessionalNamed: 'Professional name'
+  email: 'professional@example.com'
+  password: 'replace-with-a-strong-password'.
+patient := application patients first.
+application
+  addPatientUserFor: patient
+  email: 'patient@example.com'
+  password: 'replace-with-a-strong-password'.
+System commitTransaction
+```
+
+Patient creation validates and normalizes names in `SNPatient`; appointment
+assignment resolves the persisted patient and enforces the professional role
+inside `SNApplication`. Every mutation commits before returning HTTP 201.
 
 `SNAppointment` models a scheduled appointment for an `SNPatient`. Its initial
 state is `#scheduled`; the domain object validates both the patient and the
-scheduled `DateAndTime`. Appointment API and UI behavior will be added as a
-separate vertical slice.
+scheduled `DateAndTime`. Professionals see all appointments, while patient
+accounts only receive appointments associated with their patient profile.
 
 The loaders commit only after every listed source file has been processed and
 all loaded SUnit suites pass. Use a dedicated deployment user for
